@@ -27,7 +27,7 @@ require curl
 require wc
 
 get() {
-  # echo "GET $1" >&2
+  echo "GET $1" >&2
   curl --fail --silent $URL$1
 }
 
