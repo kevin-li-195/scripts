@@ -2,6 +2,7 @@
 
 import urllib
 import requests
+from sys import exit
 
 from bs4 import BeautifulSoup
 
@@ -42,9 +43,22 @@ loan_page = s.get(POST_LINK + "?func=bor-loan")
 loan_soup = BeautifulSoup(loan_page.text, "html.parser")
 RENEW_LINK = loan_soup.find("span", class_ = "buttons").find("a", title = "Renew All").attrs["href"].split("javascript:replacePage('")[1][:-3]
 
-resp = s.get(RENEW_LINK)
+resp = BeautifulSoup(s.get(RENEW_LINK).text, "html.parser")
 
-if resp.text.find("Loan cannot be renewed") != -1:
-    print("Could not renew a book.")
-else:
-    print("Success")
+tab = resp.findAll("table")
+
+if tab is None:
+    print("Fail.")
+    exit(1)
+
+rows = tab[0].findAll("tr")[1:]
+
+if len(rows) == 0:
+    print("Fail.")
+    exit(1)
+
+for row in rows:
+    cells = row.findAll("td")
+    print("Tried to renew: %s." % cells[1].text)
+
+print(tab)
