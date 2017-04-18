@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 import urllib
 import requests
@@ -16,7 +16,7 @@ soup = BeautifulSoup(r.text, "html.parser")
 
 POST_LINK = soup.find("form", class_="loginsession").attrs["action"]
 
-with open("mcgill-lib-secret.txt", "r") as f:
+with open("/home/kevin/scripts/mcgill-lib-secret.txt", "r") as f:
     lines = f.read().splitlines()
 
 USER = lines[0]
@@ -48,18 +48,14 @@ resp = BeautifulSoup(s.get(RENEW_LINK).text, "html.parser")
 tab = resp.findAll("table")
 
 if tab is None:
-    print("Fail.")
+    print("Fail. No tables.")
     exit(1)
 
 rows = tab[0].findAll("tr")[1:]
 
 if len(rows) == 0:
-    print("Fail.")
+    print("Fail. For some reason rows have length 0.")
     exit(1)
-
-for row in rows:
-    cells = row.findAll("td")
-    print("Tried to renew: %s." % cells[1].text)
 
 for t in tab:
     print(t)
