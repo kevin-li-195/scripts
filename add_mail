@@ -1,4 +1,4 @@
 #!/bin/sh
 echo "Adding email $1@mail.kevinl.io"
 read -sp "Password: " pass
-ssh k "add_mail $1 $pass"
+ssh k "server_add_mail $1 $pass"

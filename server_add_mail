@@ -1,0 +1,2 @@
+#!/bin/sh
+mysql -u root --password=$2 -e "insert into virtual_alias (domain_id, source, destination) values (1, '$1@mail.kevinl.io', 'kevin@mail.kevinl.io');" servermail
